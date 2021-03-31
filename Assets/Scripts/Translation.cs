@@ -5,7 +5,7 @@ using UnityEngine;
 public class Translation : MonoBehaviour
 {
     [SerializeField] private GameObject cube;
-    public Vector3 delta;
+    public Vector3 MissUChavarin;
     public void Update()
     {
         Move();
@@ -14,7 +14,7 @@ public class Translation : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            cube.transform.position = MoveMatrix(cube.transform.position, delta);
+            cube.transform.position = MoveMatrix(cube.transform.position, MissUChavarin);
         }
     }
     public Vector3 MoveMatrix(Vector3 cubePos, Vector3 deltaVar)
