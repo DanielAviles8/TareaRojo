@@ -6,27 +6,27 @@ public class MakeCube : MonoBehaviour
 {
     public Material material;
 
-    Mesh mesh;
-    MeshRenderer meshRenderer;
-    MeshFilter meshFilter;
+    Mesh meshh;
+    MeshRenderer meshRendererr;
+    MeshFilter meshFilterr;
 
     Vector3[] vertex;
 
 
 
-    int[] triangles;
+    int[] triangless;
 
     List<int> triangles_2;
     // Start is called before the first frame update
     void Start()
     {
-        meshFilter = gameObject.AddComponent<MeshFilter>();
+        meshFilterr = gameObject.AddComponent<MeshFilter>();
 
-        meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        meshRendererr = gameObject.AddComponent<MeshRenderer>();
 
-        meshRenderer.material = material;
+        meshRendererr.material = material;
 
-        meshFilter.mesh = mesh;
+        meshFilterr.mesh = meshh;
 
         vertex = new[]
         {
@@ -42,9 +42,9 @@ public class MakeCube : MonoBehaviour
 
        
 
-        meshFilter.mesh.vertices = vertex;
+        meshFilterr.mesh.vertices = vertex;
 
-        triangles = new[]
+        triangless = new[]
         {
             0,1,2,  // T_1
             1,3,2,  // T_2
@@ -60,7 +60,7 @@ public class MakeCube : MonoBehaviour
             5,7,3, //T_12
         };
 
-        meshFilter.mesh.triangles = triangles;
+        meshFilterr.mesh.triangles = triangless;
 
     }
 
