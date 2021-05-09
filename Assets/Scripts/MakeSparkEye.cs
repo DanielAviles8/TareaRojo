@@ -12,6 +12,9 @@ public class MakeSparkEye : MonoBehaviour
 
     Vector3[] eyeVertex;
     int[] eyeTriangles;
+
+    Vector3 temporalPosition;
+    public float angle;
     // Start is called before the first frame update
     void Start()
     {
@@ -493,48 +496,50 @@ public class MakeSparkEye : MonoBehaviour
             267, 268, 269,  //ConexionesArribaIzq2
         };
 
+
+
         Vector2[] eyeUV =
         {
             //circulo pequeño (10 triangulos)
-            new Vector2(0.330464716f, 0.974619289f),        //00
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.297762478f, 0.878172589f),        //01
+            new Vector2(0.170395869f, 0.015228426f),        //00
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.270223752f, 0.121827411f),        //01
 
-            new Vector2(0.297762478f, 0.878172589f),        //01
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.21686747f, 0.639593909f),         //02
+            new Vector2(0.270223752f, 0.121827411f),        //01
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.325301205f, 0.38071066f),         //02
 
-            new Vector2(0.21686747f, 0.639593909f),         //02
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.117039587f, 0.345177665f),        //03
+            new Vector2(0.325301205f, 0.38071066f),         //02
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.320137694f, 0.675126904f),        //03
 
-            new Vector2(0.117039587f, 0.345177665f),        //03
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.037865749f, 0.111675127f),        //04
+            new Vector2(0.320137694f, 0.675126904f),        //03
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.256454389f, 0.903553299f),        //04
 
-            new Vector2(0.037865749f, 0.111675127f),        //04
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.003442341f, 0.010152284f),        //05
+            new Vector2(0.256454389f, 0.903553299f),        //04
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.168674699f, 0.984771574f),        //05
 
-            new Vector2(0.003442341f, 0.010152284f),        //05
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.036144578f, 0.106598985f),        //06
+            new Vector2(0.168674699f, 0.984771574f),        //05
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.075731497f, 0.903553299f),        //06
 
-            new Vector2(0.036144578f, 0.106598985f),        //06
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.115318417f, 0.340101523f),        //07
+            new Vector2(0.075731497f, 0.903553299f),        //06
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.010327022f, 0.695431472f),        //07
 
-            new Vector2(0.115318417f, 0.340101523f),        //07
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.21858864f, 0.644670051f),         //08
+            new Vector2(0.010327022f, 0.695431472f),        //07
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.008605852f, 0.38071066f),         //08
 
-            new Vector2(0.21858864f, 0.644670051f),         //08
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.299483649f, 0.883248731f),        //09
+            new Vector2(0.008605852f, 0.38071066f),         //08
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.063683305f, 0.121827411f),        //09
 
-            new Vector2(0.299483649f, 0.883248731f),        //09
-            new Vector2(0.166953528f, 0.492385787f),        //Centro
-            new Vector2(0.330464716f, 0.974619289f),        //00
+            new Vector2(0.063683305f, 0.121827411f),        //09
+            new Vector2(0.170395869f, 0.532994924f),        //Centro
+            new Vector2(0.170395869f, 0.015228426f),        //00
 
             //Circulo grande (10 triangulos) 
             new Vector2(0.741824441f, 0.989847716f),
@@ -870,6 +875,159 @@ public class MakeSparkEye : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        PleaseRotate();
+    }
+    void PleaseRotate()
+    {
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        meshFilter.mesh = mesh;
+
+        temporalPosition = this.transform.position;
+        this.transform.position = new Vector3(0, 0, 0);
+
+        for(int i = 0; i < eyeVertex.Length; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                eyeVertex[i] = RotateX(eyeVertex[i].x, eyeVertex[i].y, eyeVertex[i].z);
+            }
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                eyeVertex[i] = RotateY(eyeVertex[i].x, eyeVertex[i].y, eyeVertex[i].z);
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                eyeVertex[i] = RotateZ(eyeVertex[i].x, eyeVertex[i].y, eyeVertex[i].z);
+            }
+        }
+
+        meshFilter.mesh.vertices = eyeVertex;
+
+        eyeTriangles = new[]
+        {
+            0, 1, 2,        //00-01 circulo pequeño
+            3, 4, 5,        //01-02 circulo pequeño
+            6, 7, 8,        //02-03 circulo pequeño
+            9, 10, 11,      //03-04 circulo pequeño
+            12, 13, 14,     //04-05 circulo pequeño
+            15, 16, 17,     //05-06 circulo pequeño
+            18, 19, 20,     //06-07 circulo pequeño
+            21, 22, 23,     //07-08 circulo pequeño
+            24, 25, 26,     //08-09 circulo pequeño
+            27, 28, 29,     //09-00 circulo pequeño
+
+            31, 30, 32,     //00-01 circulo grande
+            34, 33, 35,     //01-02 circulo grande
+            37, 36, 38,     //02-03 circulo grande
+            40, 39, 41,     //03-04 circulo grande
+            43, 42, 44,     //04-05 circulo grande
+            46, 45, 47,     //05-06 circulo grande
+            49, 48, 50,     //06-07 circulo grande
+            52, 51, 53,     //07-08 circulo grande
+            55, 54, 56,     //08-09 circulo grande
+            58, 57, 59,     //09-00 circulo grande
+
+            60, 61, 62,     //G00-P00-P01
+            63, 64, 65,     //G01-P01-G01
+            66, 67, 68,     //G01-P01-P02
+            70, 69, 71,     //G01-G02-P02
+            72, 73, 74,     //G02-P02-P03
+            75, 76, 77,     //G02-P03-G03
+            78, 79, 80,     //G03-P03-P04
+            81, 82, 83,     //G03-P04-G04
+            84, 85, 86,     //G04-P04-P05
+            87, 88, 89,     //G04-P05-G05
+            90, 91, 92,     //G05-P05-P06
+            93, 94, 95,     //G05-P06-G06
+            96, 97, 98,     //G06-P06-P07
+            99, 100, 101,   //G06-P07-G07
+            102, 103, 104,  //G07-P07-P08
+            105, 106, 107,  //G07-P08-G08
+            108, 109, 110,  //G08-P08-P09
+            111, 112, 113,  //G08-P09-G09
+            114, 115, 116,  //G09-P09-P00
+            117, 118, 119,  //G09-P00-G00
+
+            120, 121, 122,  //T00-T01
+            123, 124, 125,  //T01-T02
+            126, 127, 128,  //T02-T03
+            129, 130, 131,  //T03-T04
+            132, 133, 134,  //T04-T05
+            135, 136, 137,  //T05-T06
+            138, 139, 140,  //T06-T07
+            141, 142, 143,  //T07-T08
+            144, 145, 146,  //T08-T09
+            147, 148, 149,  //T09-T00
+
+            150, 151, 152,  //T00-G00-G01
+            153, 154, 155,  //T00-G01-T01
+            156, 157, 158,  //T01-G01-G02
+            159, 160, 161,  //T01-G02-T02
+            162, 163, 164,  //T02-G02-G03
+            165, 166, 167,  //T02-G03-T03
+            168, 169, 170,  //T03-G03-G04
+            171, 172, 173,  //T03-G04-T04
+            174, 175, 176,  //T04-G04-G05
+            177, 178, 179,  //T04-G05-T05
+            180, 181, 182,  //T05-G05-G06
+            183, 184, 185,  //T05-G06-T06
+            186, 187, 188,  //T06-G06-G07
+            189, 190, 191,  //T06-G07-T07
+            192, 193, 194,  //T07-G07-G08
+            195, 196, 197,  //T07-G08-T08
+            198, 199, 200,  //T08-G08-G09
+            201, 202, 203,  //T08-G09-T09
+            204, 205, 206,  //T09-G09-G00
+            207, 208, 209,  //T09-G00-T00
+
+            210, 211, 212,  //BCAA-BIAA-BIAB
+            213, 214, 215,  //BCAA-BIAB-BCAB
+            217, 216, 218,  //BCAA-BDAA-BDAB
+            220, 219, 221,  //BCAA-BDAB-BCAB
+            223, 222, 224,  //BCAAT-BIAAT-BIABT
+            226, 225, 227,  //BCAAT-BIABT-BCABT
+            228, 229, 230,  //BCAAT-BDAAT-BDABT
+            231, 232, 233,  //BCAAT-BDABT-BCABT
+
+            235, 234, 236,  //ConexionIzq1
+            237, 238, 239,  //ConexionIzq2
+            240, 241, 242,  //ConexionAbajoIzq1
+            243, 244, 245,  //ConexionAbajoIzq2
+            246, 247, 248,  //ConexionAbajoDer1
+            249, 250, 251,  //ConexionAbajoDer2
+            252, 253, 254,  //ConexionDer1
+            255, 256, 257,  //ConexionDer2
+            258, 259, 260,  //ConexionesArribaDer1
+            261, 262, 263,  //ConexionesArribaDer2
+            264, 265, 266,  //ConexionesArribaIzq1
+            267, 268, 269,  //ConexionesArribaIzq2
+        };
+
+        meshFilter.mesh.triangles = eyeTriangles;
+        this.transform.position = temporalPosition;
+    }
+     Vector3 RotateX(float x, float y, float z)
+    {
+        Vector3 pos1 = new Vector3(x, y, z);
+        float yPrime = (pos1.y * Mathf.Cos(angle)) - (pos1.z * Mathf.Sin(angle));
+        float zPrime = (pos1.y * Mathf.Sin(angle)) - (pos1.z * Mathf.Cos(angle));
+
+        return new Vector3(pos1.x, yPrime, zPrime);
+    }
+    Vector3 RotateY(float x, float y, float z)
+    {
+        Vector3 pos2 = new Vector3(x, y, z);
+        float zPrime = (pos2.z * Mathf.Cos(angle)) - (pos2.x * Mathf.Sin(angle));
+        float xPrime = (pos2.z * Mathf.Sin(angle)) - (pos2.x * Mathf.Cos(angle));
+
+        return new Vector3(xPrime, pos2.y, zPrime);
+    }
+    Vector3 RotateZ(float x, float y, float z)
+    {
+        Vector3 pos3 = new Vector3(x, y, z);
+        float xPrime = (pos3.x * Mathf.Cos(angle)) - (pos3.y * Mathf.Sin(angle));
+        float yPrime = (pos3.x * Mathf.Sin(angle)) - (pos3.y * Mathf.Cos(angle));
+
+        return new Vector3(xPrime, yPrime, pos3.z);
     }
 }
